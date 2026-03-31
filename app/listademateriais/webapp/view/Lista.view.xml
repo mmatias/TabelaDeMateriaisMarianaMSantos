@@ -1,0 +1,44 @@
+<mvc:View controllerName="listademateriais.controller.Lista"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page
+        id="page"
+        title="{i18n>title}"
+        class="sapUiContentPadding" >
+
+        <Input id='label' value='{oModelLista>/variavelInput}' liveChange="onDigitando" ></Input>
+
+        <List
+            headerText="Products"
+            headerLevel="H2"
+            items="{oModelLista>/Lista}" >
+            <StandardListItem
+                title="{oModelLista>ID} - {oModelLista>name}"
+                counter=""
+            />
+        </List>
+
+        <List
+            headerText="Products"
+            headerLevel="H2"
+            items="{
+                    path: '/Material'
+                }" >
+            <StandardListItem
+                title="{ID}"
+                counter=""/>
+        </List>
+
+        <List
+            headerText="Products2"
+            headerLevel="H2"
+            items="{oModelLista>/Lista2}" >
+            <StandardListItem
+                title="{oModelLista>ID} - {oModelLista>name}"
+                counter=""/>
+        </List>
+
+
+    </Page>
+</mvc:View>
