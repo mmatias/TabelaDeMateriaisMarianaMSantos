@@ -32,12 +32,12 @@ sap.ui.define([
                 { ID: 2, name: "Caneta", desc: "Vermelha" },
                 { ID: 3, name: "Boracha", desc: "Preta" },
                 { ID: 4, name: "Boracha", desc: "Branca" },
-                { ID: 5, name: "Grampeador", desc: "Preto" }
-                { ID: 6, name: "Lapiseira", desc: "Com grafite 0.9" }
-                { ID: 7, name: "Estojo", desc: "Rosa" }
-                { ID: 8, name: "Fita adesiva", desc: "Larga" }
-                { ID: 9, name: "Caderno", desc: "Preto" }
-                { ID: 10, name: "Caderno", desc: "Marrom" }
+                { ID: 5, name: "Grampeador", desc: "Preto" },
+                { ID: 6, name: "Lapiseira", desc: "Com grafite 0.9" },
+                { ID: 7, name: "Estojo", desc: "Rosa" },
+                { ID: 8, name: "Fita adesiva", desc: "Larga" },
+                { ID: 9, name: "Caderno", desc: "Preto" },
+                { ID: 10, name: "Caderno", desc: "Marrom" },
             ];
             this.oViewModel.setProperty("/tableMaterial", aDados);
         },
