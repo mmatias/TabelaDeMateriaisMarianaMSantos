@@ -1,0 +1,117 @@
+{
+  "_version": "1.83.0",
+  "sap.app": {
+    "id": "listademateriais",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.22.0",
+      "toolsId": "8a4da259-81b2-4547-a102-5efd9dac8220"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/prova-cap/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.01"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.146.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "listademateriais.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "listademateriais.view",
+        "async": true,
+        "viewPath": "listademateriais.view"
+      },
+      "routes": [
+        {
+          "name": "RouteLista",
+          "pattern": ":?query:",
+          "target": [
+            "TargetLista"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetLista": {
+          "id": "Lista",
+          "name": "Lista"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "listademateriais.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

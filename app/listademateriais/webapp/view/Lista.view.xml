@@ -1,0 +1,49 @@
+<mvc:View controllerName="listademateriais.controller.Lista"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="page"
+        title="{i18n>title}"
+        class="sapUiContentPadding">
+
+        <VBox>
+            <Input 
+                id="inputFiltro" 
+                placeholder="Quantidade de registros" 
+                value="{oModelLista>/variavelInput}" />
+            <Button text="Filtrar" press="onFiltrar" />
+        </VBox>
+
+        <Table
+            id="tableMateriais"
+            items="{oModelLista>/tableMaterial}"
+            inset="false">
+
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Materiais" />
+                    <ToolbarSpacer />
+                    <Button text="Criar" press="onCriarMaterial" />
+                </Toolbar>
+            </headerToolbar>
+
+            <columns>
+                <Column><Text text="ID" /></Column>
+                <Column><Text text="Nome" /></Column>
+                <Column><Text text="Descrição" /></Column>
+            </columns>
+
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{oModelLista>ID}" />
+                        <Text text="{oModelLista>name}" />
+                        <Text text="{oModelLista>desc}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>

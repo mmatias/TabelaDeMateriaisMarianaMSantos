@@ -1,0 +1,1 @@
+using ProvaCAP as service from '../../srv/service';
