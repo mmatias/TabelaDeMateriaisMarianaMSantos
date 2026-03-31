@@ -21,16 +21,18 @@
             items="{oModelLista>/tableMaterial}"
             inset="false">
 
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Materiais" />
+                    <ToolbarSpacer />
+                    <Button text="Criar" press="onCriarMaterial" />
+                </Toolbar>
+            </headerToolbar>
+
             <columns>
-                <Column>
-                    <Text text="ID" />
-                </Column>
-                <Column>
-                    <Text text="Nome" />
-                </Column>
-                <Column>
-                    <Text text="Descrição" />
-                </Column>
+                <Column><Text text="ID" /></Column>
+                <Column><Text text="Nome" /></Column>
+                <Column><Text text="Descrição" /></Column>
             </columns>
 
             <items>
@@ -43,6 +45,5 @@
                 </ColumnListItem>
             </items>
         </Table>
-
     </Page>
 </mvc:View>

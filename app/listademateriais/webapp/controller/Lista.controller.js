@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], (Controller, MessageToast) => {
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
+], (Controller, MessageToast, MessageBox) => {
     "use strict";
 
     return Controller.extend("listademateriais.controller.Lista", {
@@ -55,7 +56,70 @@ sap.ui.define([
             // Seleciona os primeiros N registros (sequencial)
             const aFiltrados = aTodos.slice(0, quantidade);
             this.oViewModel.setProperty("/tableMaterial", aFiltrados);
-        }
+        },
 
+        //Criar o material
+        onCriarMaterial: function () {
+            if (!this._oDialog) {
+                this._oDialog = new sap.m.Dialog({
+                    title: "Criar Material",
+                    type: "Message",
+                    content: [
+                        new sap.m.Label({ text: "ID" }),
+                        new sap.m.Input("inputID", { type: "Number" }),
+                        new sap.m.Label({ text: "Nome" }),
+                        new sap.m.Input("inputName"),
+                        new sap.m.Label({ text: "Descrição" }),
+                        new sap.m.Input("inputDesc")
+                    ],
+                    beginButton: new sap.m.Button({
+                        text: "Salvar",
+                        press: () => {
+                            this._salvarMaterial();
+                        }
+                    }),
+                    endButton: new sap.m.Button({
+                        text: "Cancelar",
+                        press: () => {
+                            this._oDialog.close();
+                        }
+                    })
+                });
+                this.getView().addDependent(this._oDialog);
+            }
+            this._oDialog.open();
+        },
+
+        _salvarMaterial: function () {
+            const oID = sap.ui.getCore().byId("inputID").getValue();
+            const oName = sap.ui.getCore().byId("inputName").getValue();
+            const oDesc = sap.ui.getCore().byId("inputDesc").getValue();
+
+            // Validação básica
+            if (!oID || !oName || !oDesc) {
+                sap.m.MessageBox.error("Todos os campos devem ser preenchidos!");
+                return;
+            }
+
+            // Objeto do novo material
+            const oNovoMaterial = {
+                ID: parseInt(oID),
+                name: oName,
+                desc: oDesc
+            };
+
+            // Pega os dados atuais da tabela
+            const aMateriais = this.oViewModel.getProperty("/tableMaterial") || [];
+
+            // Adiciona novo registro
+            aMateriais.push(oNovoMaterial);
+
+            // Atualiza a model
+            this.oViewModel.setProperty("/tableMaterial", aMateriais);
+
+            // Fecha o dialog e exibe mensagem de sucesso
+            this._oDialog.close();
+            sap.m.MessageBox.success("Material criado com sucesso!");
+        }
     });
 });
