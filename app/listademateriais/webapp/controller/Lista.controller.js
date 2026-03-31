@@ -1,106 +1,61 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    'sap/m/MessageToast'
-], (Controller,MessageToast) => {
+    "sap/m/MessageToast"
+], (Controller, MessageToast) => {
     "use strict";
 
     return Controller.extend("listademateriais.controller.Lista", {
 
-        onInit: function () {       
+        onInit: function () {
             this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            this.oRouter
-            .getTarget("TargetLista") // Sempre alterar o Target
-            .attachDisplay(this.handleRouteMatched, this); 
+            this.oRouter.getTarget("TargetLista").attachDisplay(this.handleRouteMatched, this);
         },
 
         handleRouteMatched: function () {
-            this.createModel();  
-            this.getTableCapacity();  
+            this.createModel();
+            this.loadInitialData();
         },
 
         createModel: function () {
-            this.getView().setModel(
-                new sap.ui.model.json.JSONModel({
-                    variavelInput: 123,
-                    Lista: [
-                        {
-                            ID: 1,
-                            name: "João"
-                        },{
-                            ID: 2,
-                            name: "Maria"
-                        }
-                    ],
-                    Lista2: []
-                }),
-                    "oModelLista"
-                );
-
-            this.oViewModel = this.getView().getModel("oModelLista");
-        },  
-
-
-        onPress: function (evt) {
-      MessageToast.show(evt.getSource().getId() + " Pressed");
-    },
-
-
-        onDigitando: function (evt) {
-            var teste;
-    },
-
-
-        getTableCapacity: async function () {
-
-            let oData;
-            let oModel = this.getOwnerComponent().getModel();
-            let Service = "/Material"
-
-            let oFilter = new sap.ui.model.Filter("ID", sap.ui.model.FilterOperator.EQ, 3);
-
-            //V4 - Tipo 01
-            let oListBinding = oModel.bindList(Service);
-            oListBinding.filter([oFilter]);
-            let aContexts = await oListBinding.requestContexts();
-
-            if (aContexts.length > 0) {
-                oData = aContexts[0].getObject();
-
-                let payload = [
-                    {
-                        ID: oData.ID,
-                        NumMat: oData.NumMat,
-                        nome: oData.nome,
-                        desc: oData.desc
-                    }
-                ]
-
-                if(oData){
-                    this.oViewModel.setProperty("/Lista2", payload);
-                }
-            } 
-
-            //V4 - Tipo 02
-            // var oContext = oModel.bindContext(`${Service}(ID=1)`);
-            // await oContext.requestObject();
-
-            // if (oContext.length > 0) {
-            //     oData = oContext.getBoundContext().getObject();
-            // }             
-
-            // //V2    
-            // let returnV2DataBank = await new Promise(function (resove, reject) {
-            //     oModel.read(Service, {
-            //         success: function (data) {
-            //             resove(data);
-            //         }.bind(this),
-            //             error: function (oError) {
-            //             reject(oError);
-            //         }.bind(this),
-            //     });
-            // });
+            const oModel = new sap.ui.model.json.JSONModel({
+                variavelInput: 3, // valor inicial do input
+                tableMaterial: []  // dados da tabela
+            });
+            this.getView().setModel(oModel, "oModelLista");
+            this.oViewModel = oModel;
         },
 
+        loadInitialData: function () {
+            // Dados predefinidos
+            const aDados = [
+                { ID: 1, name: "Caneta", desc: "Azul" },
+                { ID: 2, name: "Caneta", desc: "Vermelha" },
+                { ID: 3, name: "Boracha", desc: "Preta" },
+                { ID: 4, name: "Boracha", desc: "Branca" },
+                { ID: 5, name: "Grampeador", desc: "Preto" }
+                { ID: 6, name: "Lapiseira", desc: "Com grafite 0.9" }
+                { ID: 7, name: "Estojo", desc: "Rosa" }
+                { ID: 8, name: "Fita adesiva", desc: "Larga" }
+                { ID: 9, name: "Caderno", desc: "Preto" }
+                { ID: 10, name: "Caderno", desc: "Marrom" }
+            ];
+            this.oViewModel.setProperty("/tableMaterial", aDados);
+        },
+
+        // Função de filtro
+        onFiltrar: function () {
+            const quantidade = parseInt(this.oViewModel.getProperty("/variavelInput"));
+            const aTodos = this.oViewModel.getProperty("/tableMaterial");
+
+            if (!quantidade || quantidade <= 0) {
+                MessageToast.show("Digite um número válido");
+                return;
+            }
+
+            // Seleciona os primeiros N registros (sequencial)
+            const aFiltrados = aTodos.slice(0, quantidade);
+            this.oViewModel.setProperty("/tableMaterial", aFiltrados);
+        }
 
     });
 });
